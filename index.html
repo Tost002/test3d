@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Three.js Different Geometries</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Создание сцены
+        const scene = new THREE.Scene();
+        
+        // Создание камеры
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        
+        // Создание рендера
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+        
+        // Создание материалов
+        const materialSphere = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+        const materialCube = new THREE.MeshBasicMaterial({ color: 0xFF0000, wireframe: true });
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+        // Создание различных геометрий
+        // Куб
+        const cubeGeometry = new THREE.BoxGeometry(5.7,5.7,5.7);
+        const cube = new THREE.Mesh(cubeGeometry, materialCube);
+        cube.position.x = 0;
+        scene.add(cube);
+
+        // Сфера
+        const sphereGeometry = new THREE.SphereGeometry(5, 8, 8);
+        const sphere = new THREE.Mesh(sphereGeometry, material);
+        sphere.position.x = 0;
+        scene.add(sphere);
+
+        // Позиционирование камеры
+        camera.position.z = 10;
+
+        // Добавление окружающего света (AmbientLight)
+        const ambientLight = new THREE.AmbientLight(0x404040); // Мягкий белый свет
+        scene.add(ambientLight);
+
+        // Добавление точечного света (PointLight)
+        const pointLight = new THREE.PointLight(0xffffff, 1, 100);
+        pointLight.position.set(10, 10, 10);
+        scene.add(pointLight);
+
+        // Добавление направленного света (DirectionalLight)
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+        directionalLight.position.set(-5, 5, 5);
+        scene.add(directionalLight);
+
+        // Функция анимации
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            // Вращение объектов
+            cube.rotation.x += 0.01;
+            cube.rotation.y += 0.01;
+            sphere.rotation.x += 0.01;
+            sphere.rotation.y += 0.01;
+
+            
+            // Рендеринг сцены с камерой
+            renderer.render(scene, camera);
+        }
+
+        // Запуск анимации
+        animate();
+    </script>
+</body>
+</html>
